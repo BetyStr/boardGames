@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv179-mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 2000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: mariadb
+        image: mariadb
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mariadbvol
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: hQjeCUyJNYbvuFxfefWSHRExM4kFAfaM
+        - name: MARIADB_DATABASE
+          value: pv179
+        - name: MARIADB_USER
+          value: pv179
+        - name: MARIADB_PASSWORD
+          value: 3gT5jR9MYgT2Twzqz9Tc9csn
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "1"
+          limits:
+            memory: "1024Mi"
+            cpu: "1"
+      volumes:
+      - name: mariadbvol
+        persistentVolumeClaim:
+          claimName: mariadb-pvc

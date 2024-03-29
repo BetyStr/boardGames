@@ -1,0 +1,36 @@
+@page
+@using Microsoft.IdentityModel.Tokens
+@model WishListModel
+@{
+    ViewData["Title"] = "Wishlist";
+    ViewData["ActivePage"] = ManageNavPages.Wishlist;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage"/>
+<div class="row">
+    <div class="col-md-6">
+        @if (!Model.Wishlist.IsNullOrEmpty())
+        {
+            @foreach (var book in Model.Wishlist)
+            {
+                <div class="row">
+                    <div class="col">
+                        <a href="@Url.Action("Detail", "Book", new { id = book.Id })">
+                            <p>@book.Name</p>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <form method="post">
+                            <button type="submit" asp-page-handler="delete" asp-route-userid="@Model.UserModel.Id" asp-route-bookid=@book.Id class="btn btn-sm btn-danger btn-">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

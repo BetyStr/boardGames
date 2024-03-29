@@ -1,0 +1,22 @@
+@model IEnumerable<BusinessLayer.Models.RatingDetail>
+
+@if (Model.Any())
+{
+    foreach (var review in Model)
+    {
+        <div class="border-bottom mb-2">
+            <p>@review.User.Name </p>
+            <p><strong>Rating: </strong>@review.Value</p>
+            
+            @if (review.Comment != null)
+            {
+                <p><strong>Comment: </strong>@review.Comment</p>
+            }
+            
+        </div>
+    }
+}
+else
+{
+    <p>No reviews available.</p>
+}

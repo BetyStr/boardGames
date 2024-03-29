@@ -1,0 +1,18 @@
+@page
+@model OrderModel
+@{
+    ViewData["Title"] = "Orders";
+    ViewData["ActivePage"] = ManageNavPages.Order;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage"/>
+<div class="row">
+    <div class="col-md-6">
+        @await Html.PartialAsync("~/Views/Order/OrderTable.cshtml", Model.Orders)
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

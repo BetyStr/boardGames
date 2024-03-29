@@ -1,0 +1,12 @@
+@model BusinessLayer.Models.AuthorUpdate
+
+@using (Html.BeginForm("Edit", "Author", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(model => model.Name)
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+        <button type="submit" class="btn btn-sm btn-success">Save</button>
+    </div>
+    
+}

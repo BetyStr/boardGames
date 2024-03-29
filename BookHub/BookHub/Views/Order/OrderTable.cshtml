@@ -1,0 +1,56 @@
+@model IEnumerable<BusinessLayer.Models.OrderDetail>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Total Price [€]</th>
+        <th>Date</th>
+        <th>Payment Status</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Detail", "Order", new { id = order.Id })">@order.Id</a>
+            </td>
+            <td>@order.TotalPrice</td>
+            <td>@order.Date</td>
+            @if (order.OrderStatus == OrderStatus.Unpaid)
+            {
+                <td>
+                    <span class="badge btn-danger">@order.OrderStatus</span>
+                </td>
+            }
+            else if (order.OrderStatus == OrderStatus.Paid)
+            {
+                <td>
+                    <span class="badge btn-warning">@order.OrderStatus</span>
+                </td>
+            }
+            else if (order.OrderStatus == OrderStatus.AwaitingShipment)
+            {
+                <td>
+                    <span class="badge btn-info">@order.OrderStatus</span>
+                </td>
+            }
+            else if (order.OrderStatus == OrderStatus.Shipped)
+            {
+                <td>
+                    <span class="badge btn-primary">@order.OrderStatus</span>
+                </td>
+            }
+            else if (order.OrderStatus == OrderStatus.Delivered)
+            {
+                <td>
+                    <span class="badge btn-success">@order.OrderStatus</span>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

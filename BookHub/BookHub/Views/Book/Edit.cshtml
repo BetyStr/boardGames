@@ -1,0 +1,107 @@
+@model BusinessLayer.Models.BookCreate
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@using (Html.BeginForm("Edit", "Book", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(model => model.Name)
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PrimaryGenre" class="control-label">Primary Genre</label>
+        <div id="primary-genre">
+            <input asp-for="PrimaryGenre.Name" class="form-control" placeholder="Genre Name" />
+            <input asp-for="PrimaryGenre.Id" class="form-control" placeholder="Genre Id" />
+            <span asp-validation-for="PrimaryGenre.Name" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group" id="publisher-container">
+        <label asp-for="Publisher" class="control-label">Publisher</label>
+        <div id="publisher">
+            <div class="form-group">
+                <input asp-for="Publisher.Name" class="form-control" placeholder="Publisher Name" />
+                <input asp-for="Publisher.Id" class="form-control" placeholder="Publisher Id" />
+                <span asp-validation-for="Publisher.Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StockInStorage" class="control-label">Stock in Storage</label>
+        <input asp-for="StockInStorage" class="form-control" />
+        <span asp-validation-for="StockInStorage" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Price</label>
+        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label for="Authors">Authors</label>
+        <button type="button" id="addAuthor" class="btn btn-primary">Add Author</button>
+        <div id="authorContainer">
+            @for (int i = 0; i < Model.Authors.Count; i++)
+            {
+                <div>
+                    <input type="text" name="Authors[@i].Id" placeholder="Author ID" class="form-control" value="@Model.Authors.ElementAt(i).Id" />
+                    <input type="text" name="Authors[@i].Name" placeholder="Author Name" class="form-control" value="@Model.Authors.ElementAt(i).Name" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Genres">Genres</label>
+        <button type="button" id="addGenre" class="btn btn-primary">Add Genre</button>
+        <div id="genreContainer">
+            @for (int i = 0; i < Model.Genres.Count; i++)
+            {
+                <div>
+                    <input type="text" name="Genres[@i].Id" placeholder="Genre ID" class="form-control" value="@Model.Genres.ElementAt(i).Id" />
+                    <input type="text" name="Genres[@i].Name" placeholder="Genre Name" class="form-control" value="@Model.Genres.ElementAt(i).Name" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-success" />
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            var authorIndex = @Model.Authors.Count;
+            var genreIndex = @Model.Genres.Count;
+
+            $("#addAuthor").click(function () {
+                var authorInput = '<div>';
+                authorInput += '<input type="text" name="Authors[' + authorIndex + '].Id" placeholder="Author ID" class="form-control" />';
+                authorInput += '<input type="text" name="Authors[' + authorIndex + '].Name" placeholder="Author Name" class="form-control" />';
+                authorInput += '</div>';
+                $("#authorContainer").append(authorInput);
+                authorIndex++;
+            });
+
+            $("#addGenre").click(function () {
+                var genreInput = '<div>';
+                genreInput += '<input type="text" name="Genres[' + genreIndex + '].Id" placeholder="Genre ID" class="form-control" />';
+                genreInput += '<input type="text" name="Genres[' + genreIndex + '].Name" placeholder="Genre Name" class="form-control" />';
+                genreInput += '</div>';
+                $("#genreContainer").append(genreInput);
+                genreIndex++;
+            });
+        });
+    </script>
+}

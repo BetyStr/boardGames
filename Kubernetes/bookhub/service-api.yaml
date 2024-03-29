@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookhub-api-svc
+spec:
+  type: ClusterIP
+  ports:
+  - name: bookhub-api-port
+    port: 80
+    targetPort: 80
+  selector:
+    app: bookhub-api

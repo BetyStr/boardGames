@@ -1,0 +1,53 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BookHub.Models
+@inject SignInManager<User> SignInManager
+@model System.Collections.Generic.IEnumerable<BusinessLayer.Models.PublisherDetail>
+@{
+    ViewData["Title"] = "Publishers";
+}
+
+<h1>Publishers</h1>
+<form asp-action="Search" asp-controller="Publisher" method="get" class="mt-4">
+    <div class="input-group mx-left" style="max-width: 300px;">
+        <input type="text" name="query" class="form-control" placeholder="Search..." />
+        <div class="input-group-append">
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </div>
+    </form>
+<p>
+</p>
+@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create Publisher", "Create", new { }, new { @class = "btn" })
+    </p>
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)</th>
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <th>Actions</th>
+        }
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+            @Html.ActionLink(item.Name, "Detail", new { id = item.Id }, new { @class = "detail-link-underline"})
+            </td>
+            <td>
+                @await Html.PartialAsync("TableButtons", new TableButton { Id = item.Id, ControllerName = "Publisher", ShowDetail = false})
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

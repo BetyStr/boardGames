@@ -1,0 +1,85 @@
+.btn {
+  background-color: black;
+  border-color: #252525;
+  color: white;
+  font-family: 'monospace', monospace;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+.btn:hover {
+  background-color: grey;
+  color: white;
+  border-color: grey;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.detail-link-underline:link {
+  position: relative;
+  text-decoration: none;
+  background-color: transparent;
+  color: black;
+}
+
+.detail-link-underline:visited {
+  color: black;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.detail-link-underline:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+.detail-link-underline:active {
+  color: yellow;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.card-title, .card-text, .card-link {
+  color: black;
+  text-decoration: none;
+}
+
+.card {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s, box-shadow 0.3s; 
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

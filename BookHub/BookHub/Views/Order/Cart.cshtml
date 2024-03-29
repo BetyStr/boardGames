@@ -1,0 +1,62 @@
+@model BusinessLayer.Models.OrderDetail
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<div class="col-12">
+    <h2>Cart</h2>
+</div>
+
+<div class="col-6">
+    <p>Order ID: <a asp-action="Detail" asp-controller="Order" asp-route-id="@Model.Id">@Model.Id</a></p>
+    <p>Total Price: @Model.TotalPrice €</p>
+    
+    <div class="row">
+        <div class="col">
+            <h3>Order items</h3>
+        </div>
+        
+        <div class="col-auto">
+            @if (Model.OrderStatus == OrderStatus.Unpaid)
+                {
+                    <div>@Html.ActionLink("Pay", "Pay", new { id = Model.Id }, new { @class = "btn btn-sm btn-success" })</div>
+                }
+        </div>
+        <div class="col-auto">
+            <a asp-page="/Account/Manage/Order" asp-area="Identity" class="btn btn-sm btn-info">Order History</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Book</th>
+            <th>Amount</th>
+            <th>Unit price</th>
+            <th>Sum</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var book in Model.Books)
+        {
+            var orderItem = Model.OrderItems.FirstOrDefault(i => i.BookId == book.Id);
+            <tr>
+                <td>
+                    <p>
+                        <a href="@Url.Action("Detail", "Book", new { id = book.Id })">@book.Name</a>
+                    </p>
+                </td>
+                <td>@orderItem?.Count</td>
+                <td>@orderItem?.BuyUnitPrice</td>
+                <td>@(orderItem?.BuyUnitPrice * orderItem?.Count)</td>
+                <td>@Html.ActionLink("Delete", "DeleteItem", new { bookId = book.Id }, new { @class = "btn btn-sm btn-danger" })</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,38 @@
+@model BusinessLayer.Models.RatingDetail
+@using Microsoft.AspNetCore.Identity
+@using BookHub.Models
+@inject SignInManager<User> SignInManager
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-auto">
+            <h2>@Model.Book.Name</h2>
+        </div>
+        <div class="col-auto">
+                    @await Html.PartialAsync("TableButtons", new TableButton { Id = Model.Id, ControllerName = "Rating", ShowDetail = false })
+                </div>
+    </div>
+</div>
+
+<div class="col-6">
+    <h3>Rating</h3>
+ 
+    <div class="border-bottom mb-2">
+        <p><strong>ID:</strong> @Model.Id</p>
+        <p><strong>Book:</strong> @Html.ActionLink(Model.Book.Name, "Detail","Book", new { id = Model.Book.Id }, new { @class = "detail-link-underline"})</p>
+        <p><strong>User:</strong> @Model.User.Name</p>
+        <p><strong>Value:</strong> @Model.Value</p>
+        @if (!string.IsNullOrEmpty(Model.Comment))
+        {
+            <p><strong>Comment:</strong> @Model.Comment</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

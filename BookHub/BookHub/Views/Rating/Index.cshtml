@@ -1,0 +1,73 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BookHub.Models
+@using Microsoft.IdentityModel.Tokens
+@inject SignInManager<User> SignInManager
+@model System.Collections.Generic.IEnumerable<BusinessLayer.Models.RatingDetail>
+@{
+    ViewData["Title"] = "Ratings";
+}
+
+<h1>Ratings</h1>
+<form asp-action="Search" asp-controller="Rating" method="get" class="mt-4">
+    <div class="input-group mx-left" style="max-width: 300px;">
+        <input type="text" name="query" class="form-control" placeholder="Search..." />
+        <div class="input-group-append">
+            <button type="submit" class="btn">Search</button>
+        </div>
+    </div>
+    </form>
+<p>
+</p>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Book</th>
+            <th>Value</th>
+            <th>Comment</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(i => item.Id)</td>
+                <td>
+                @Html.ActionLink(item.Book.Name, "Detail", new { id = item.Id }, new { @class = "detail-link-underline"})
+                </td>
+                <td>@Html.DisplayFor(i => item.Value)</td>
+                <td>
+                    @if (!item.Comment.IsNullOrEmpty())
+                    {
+                        if (item.Comment.Length > 30)
+                        {
+                            <p>@item.Comment.Substring(0,30)k..</p>
+                        }
+                        else
+                        {
+                            <p>@item.Comment</p>
+                        }
+                        
+                    }
+                    else
+                    {
+                        <p>None</p>
+                    }
+                </td>
+                <td>
+                    @await Html.PartialAsync("TableButtons", new TableButton { Id = item.Id, ControllerName = "Rating", ShowDetail = false})
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1>No Ratings, first you need to sign in</h1>
+}

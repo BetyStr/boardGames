@@ -1,0 +1,165 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.IdentityModel.Tokens
+@inject SignInManager<User> SignInManager
+@model BusinessLayer.Models.SearchType
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Search results</h1>
+        <form asp-action="Search" asp-controller="Home" method="get" class="mt-4">
+              <div class="input-group mx-auto" style="max-width: 400px;">
+                  <input type="text" name="query" class="form-control" placeholder="Search..." />
+                      <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+</div>
+<div class="text-left">
+
+<table class="table">
+@if (!Model.Authors.IsNullOrEmpty())
+{
+    <thead>
+    <tr>
+        <th>Authors</th>
+        <th>Actions</th>
+    </tr>
+
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Authors)
+    {
+        <tr>
+            <td>@Html.DisplayFor(i => item.Name)</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Author Actions">
+                    <div> <a href="@Url.Action("Detail", "Author", new { id = item.Id })" class="btn btn-sm btn-primary">Detail</a></div>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <div style="margin-left: 10px"> <a href="@Url.Action("Edit", "Author", new { id = item.Id })" class="btn btn-sm btn-warning">Edit</a></div>
+                        <div style="margin-left: 10px"> <a href="@Url.Action("Delete", "Author", new { id = item.Id })" class="btn btn-sm btn-danger">Delete</a></div>
+                    }
+                </div>
+
+            </td>
+        </tr>
+    }
+    </tbody>
+}
+  @if (!Model.Genres.IsNullOrEmpty())
+  {
+      <thead>
+      <tr>
+          <th>Genres</th>
+          <th>Actions</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model.Genres)
+      {
+          <tr>
+              <td>@Html.DisplayFor(i => item.Name)</td>
+              <td>
+                  <div class="btn-group" role="group" aria-label="Genre Actions">
+                      <div> <a href="@Url.Action("Detail", "Genre", new { id = item.Id })" class="btn btn-sm btn-primary">Detail</a></div>
+                      @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                      {
+                          <div style="margin-left: 10px"> <a href="@Url.Action("Edit", "Genre", new { id = item.Id })" class="btn btn-sm btn-warning">Edit</a></div>
+                          <div style="margin-left: 10px"> <a href="@Url.Action("Delete", "Genre", new { id = item.Id })" class="btn btn-sm btn-danger">Delete</a></div>
+                      }
+                  </div>
+              </td>
+          </tr>
+      }
+      </tbody>
+  }
+   @if (!Model.Books.Books.IsNullOrEmpty())
+   {
+       <thead>
+       <tr>
+           <th>Books</th>
+           <th>Actions</th>
+       </tr>
+       </thead>
+       <tbody>
+       @foreach (var item in Model.Books.Books)
+       {
+           <tr>
+               <td>@Html.DisplayFor(i => item.Name)</td>
+               <td>
+                   <div class="btn-group" role="group" aria-label="Book Actions">
+                       <div> <a href="@Url.Action("Detail", "Book", new { id = item.Id })" class="btn btn-sm btn-primary">Detail</a></div>
+                       @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                       {
+                           <div style="margin-left: 10px"> <a href="@Url.Action("Edit", "Book", new { id = item.Id })" class="btn btn-sm btn-warning">Edit</a></div>
+                           <div style="margin-left: 10px"> <a href="@Url.Action("Delete", "Book", new { id = item.Id })" class="btn btn-sm btn-danger">Delete</a></div>
+                       }
+                   </div>
+               </td>
+           </tr>
+       }
+       </tbody>
+   }
+@if (!Model.Publishers.IsNullOrEmpty())
+{
+
+    <thead>
+    <tr>
+        <th>Publishers</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Publishers)
+    {
+        <tr>
+            <td>@Html.DisplayFor(i => item.Name)</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Publisher Actions">
+                    <div> <a href="@Url.Action("Detail", "Publisher", new { id = item.Id })" class="btn btn-sm btn-primary">Detail</a></div>
+                    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    {
+                        <div style="margin-left: 10px"> <a href="@Url.Action("Edit", "Publisher", new { id = item.Id })" class="btn btn-sm btn-warning">Edit</a></div>
+                        <div style="margin-left: 10px"> <a href="@Url.Action("Delete", "Publisher", new { id = item.Id })" class="btn btn-sm btn-danger">Delete</a></div>
+                    }
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+}
+ @if (!Model.Ratings.IsNullOrEmpty())
+ {
+     <thead>
+     <tr>
+         <th>Ratings on book</th>
+         <th>Actions</th>
+     </tr>
+     </thead>
+     <tbody>
+     @foreach (var item in Model.Ratings)
+     {
+         <tr>
+             <td>@Html.DisplayFor(i => item.Book.Name)</td>
+             <td>
+                 <div class="btn-group" role="group" aria-label="Rating Actions">
+                     <div> <a href="@Url.Action("Detail", "Rating", new { id = item.Id })" class="btn btn-sm btn-primary">Detail</a></div>
+                     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                     {
+                         <div style="margin-left: 10px"> <a href="@Url.Action("Edit", "Rating", new { id = item.Id })" class="btn btn-sm btn-warning">Edit</a></div>
+                         <div style="margin-left: 10px"> <a href="@Url.Action("Delete", "Rating", new { id = item.Id })" class="btn btn-sm btn-danger">Delete</a></div>
+                     }
+                 </div>
+             </td>
+
+         </tr>
+     }
+     </tbody>
+ }
+</table>
+</div>

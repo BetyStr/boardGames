@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookhub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookhub
+  template:
+    metadata:
+      labels:
+        app: bookhub
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+      - name: bookhub
+        image: cerit.io/roman_alexander_mariancik/bookhub-image
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "1500Mi"
+            cpu: "1"
+          limits:
+            memory: "1500Mi"
+            cpu: "1"

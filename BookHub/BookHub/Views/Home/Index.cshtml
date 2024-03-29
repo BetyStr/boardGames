@@ -1,0 +1,42 @@
+﻿@model BookHub.Models.FeaturedBookModel;
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4"><strong>Welcome to BookHub!</strong></h1>
+        <form asp-action="Search" asp-controller="Home" method="get" class="mt-4">
+              <div class="input-group mx-auto" style="max-width: 400px;">
+                  <input type="text" name="query" class="form-control" placeholder="Search..." />
+                      <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+        </form>
+
+    <div class="mt-4">
+        <div class="row">
+            @foreach (var book in Model.Book)
+            {
+                <div class="col-md-4 mb-3">
+                    <a href="@Url.Action("Detail", "Book", new { id = book.Id })" class="card-link">
+                        <div class="card" style="border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                            <div class="card-body">
+                                <h5 class="card-title">@book.Name</h5>
+                                @foreach (var author in book.Authors)
+                                {
+                                    <p class="card-text">@author.Name</p>
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    <p>
+    </p>
+</div>

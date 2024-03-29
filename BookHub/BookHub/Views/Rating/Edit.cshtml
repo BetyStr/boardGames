@@ -1,0 +1,20 @@
+@model BusinessLayer.Models.RatingUpdate
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@using (Html.BeginForm("Edit", "Rating", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(model => model.Value)
+        @Html.EditorFor(model => model.Value)
+        @Html.ValidationMessageFor(model => model.Value)
+        
+        @Html.LabelFor(model => model.Comment)
+        @Html.EditorFor(model => model.Comment)
+        @Html.ValidationMessageFor(model => model.Comment)
+        <button type="submit" class="btn btn-sm btn-success">Save</button>
+    </div>
+    
+}
